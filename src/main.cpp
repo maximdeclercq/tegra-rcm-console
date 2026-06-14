@@ -90,8 +90,8 @@ static void pin_init(void) {
 }
 
 static void usb_begin(void) {
-  USBDevice.setID(TRC_USB_VID, TRC_USB_PID);
-  USBDevice.setProductDescriptor(TRC_USB_PRODUCT);
+  USBDevice.setID(TB_USB_VID, TB_USB_PID);
+  USBDevice.setProductDescriptor(TB_USB_PRODUCT);
   Serial.begin(115200);
   cons.setStringDescriptor(SERIAL_IFACE_STR);
   cons.begin(115200);

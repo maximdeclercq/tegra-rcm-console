@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 import pytest
 
-from tegra_rcm_console import board
-from tegra_rcm_console.board import PID, VID, Board, BoardError, discover
+from tegra_button import board
+from tegra_button.board import PID, VID, Board, BoardError, discover
 
 
 @dataclass

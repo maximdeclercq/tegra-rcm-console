@@ -1,4 +1,4 @@
-"""tegra-rcm-console: USB control of a Jetson Orin Nano Devkit."""
+"""tegra-button: USB control of a Jetson Orin Nano Devkit."""
 from __future__ import annotations
 
 import argparse
@@ -36,7 +36,7 @@ def cmd_flash(args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    ap = argparse.ArgumentParser(prog="tegra-rcm-console", description=DESCRIPTION)
+    ap = argparse.ArgumentParser(prog="tegra-button", description=DESCRIPTION)
     ap.add_argument("--version", action="version", version=__version__)
     ap.add_argument("--id", metavar="ID", help="select a board by USB serial number")
     sub = ap.add_subparsers(dest="cmd", metavar="<command>", required=True)

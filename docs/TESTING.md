@@ -3,12 +3,12 @@
 `testimage` validates an already-running image over SSH; it does not flash. So
 flashing is a separate bring-up step. The pipeline:
 
-    tegra-rcm-console flash <image>.tegraflash-tar.zst   # recover + initrd-flash
+    tegra-button flash <image>.tegraflash-tar.zst   # recover + initrd-flash
     bitbake <image> -c testimage                          # power-cycle + validate
 
 `flash` brings the board up on the new image (recovery is internal to it), then
 `testimage` power-cycles and validates over SSH. To do it in one `bitbake`, have
-the controller below shell out to `tegra-rcm-console flash` in `start()` (artifact
+the controller below shell out to `tegra-button flash` in `start()` (artifact
 under `DEPLOY_DIR_IMAGE`) before waiting for SSH. OE4T ships no Jetson controller,
 so you supply the small oeqa target plus the `local.conf` below.
 
@@ -24,8 +24,8 @@ testbench `192.168.10.1`, DUT `192.168.10.2`. Root SSH must be key-based.
     TEST_TARGET = "JetsonOrinTarget"
     TEST_SERVER_IP = "192.168.10.1"
     TEST_TARGET_IP = "192.168.10.2"
-    TEST_POWERCONTROL_CMD = "tegra-rcm-console power"
-    TEST_SERIALCONTROL_CMD = "tegra-rcm-console serial"
+    TEST_POWERCONTROL_CMD = "tegra-button power"
+    TEST_SERIALCONTROL_CMD = "tegra-button serial"
     TEST_SUITES = "ping ssh df date parselogs"
 
 `testimage` appends `cycle`/`off`/`on` to `TEST_POWERCONTROL_CMD`, which matches

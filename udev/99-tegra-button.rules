@@ -1,4 +1,4 @@
-# tegra-rcm-console: user access plus stable symlinks
+# tegra-button: user access plus stable symlinks
 SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ENV{ID_MM_DEVICE_IGNORE}="1", MODE="0660", TAG+="uaccess"
 SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{bInterfaceNumber}=="00", SYMLINK+="tegra-button"
 SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="0001", ATTRS{bInterfaceNumber}=="02", SYMLINK+="tegra-serial"

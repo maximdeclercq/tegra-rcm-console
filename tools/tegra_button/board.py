@@ -1,4 +1,4 @@
-"""Discover and drive the tegra-rcm-console appliance over its control CDC."""
+"""Discover and drive the tegra-button appliance over its control CDC."""
 from __future__ import annotations
 
 import contextlib

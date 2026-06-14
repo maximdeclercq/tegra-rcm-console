@@ -16,7 +16,9 @@ from pathlib import Path
 from .board import Board
 
 FLASH_MARKER = "initrd-flash"
-NVIDIA_RCM = ("0955", "7023")  # Orin Nano in USB recovery
+RCM_VID = "0955"
+# Orin Nano/NX (+AGX Orin) RCM product IDs, per the OE4T udev rules.
+RCM_PIDS = ("7523", "7623", "7323", "7423", "7023")
 FLASH_TIMEOUT_S = 1800.0
 RCM_WAIT_S = 30.0
 
@@ -68,19 +70,18 @@ class TegraflashArtifact:
 
 
 def _wait_for_rcm(timeout: float = RCM_WAIT_S) -> None:
-    vid, pid = NVIDIA_RCM
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         for vid_file in glob.glob("/sys/bus/usb/devices/*/idVendor"):
             try:
                 d = Path(vid_file).parent
-                if d.joinpath("idVendor").read_text().strip() == vid and \
-                   d.joinpath("idProduct").read_text().strip() == pid:
+                if d.joinpath("idVendor").read_text().strip() == RCM_VID and \
+                   d.joinpath("idProduct").read_text().strip() in RCM_PIDS:
                     return
             except OSError:
                 continue
         time.sleep(0.5)
-    raise FlashError(f"no RCM device {vid}:{pid} after {timeout:.0f}s")
+    raise FlashError(f"no RCM device {RCM_VID}:[{'/'.join(RCM_PIDS)}] after {timeout:.0f}s")
 
 
 def _run(cmd: list[str], cwd: Path, log: Path | None, timeout: float) -> int:

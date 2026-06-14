@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tegra-rcm-console"
+name = "tegra-button"
 version = "1.0.0"
 description = "USB appliance CLI for Jetson Orin Nano/NX Devkit recovery, console, and flashing"
 requires-python = ">=3.9"
@@ -13,11 +13,11 @@ dependencies = ["pyserial>=3.5"]
 dev = ["pytest>=7", "ruff>=0.5"]
 
 [project.scripts]
-tegra-rcm-console = "tegra_rcm_console.__main__:main"
+tegra-button = "tegra_button.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["tegra_rcm_console*"]
+include = ["tegra_button*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

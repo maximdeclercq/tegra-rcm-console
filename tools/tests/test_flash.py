@@ -3,7 +3,7 @@ import tarfile
 
 import pytest
 
-from tegra_rcm_console.flash import ArtifactError, TegraflashArtifact
+from tegra_button.flash import ArtifactError, TegraflashArtifact
 
 
 def _make_artifact(tmp_path, members):

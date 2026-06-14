@@ -19,7 +19,7 @@ jobs:
       - name: Upload UF2
         uses: actions/upload-artifact@v7
         with:
-          name: tegra-rcm-console.uf2
+          name: tegra-button.uf2
           path: .pio/build/pico/firmware.uf2
 
   nano:
@@ -67,9 +67,9 @@ jobs:
       - name: Build shiv
         run: |
           pip install --target .site-pkgs ./tools
-          shiv --site-packages .site-pkgs --compressed -c tegra-rcm-console -o tegra-rcm-console
+          shiv --site-packages .site-pkgs --compressed -c tegra-button -o tegra-button
       - name: Upload shiv
         uses: actions/upload-artifact@v7
         with:
-          name: tegra-rcm-console
-          path: tegra-rcm-console
+          name: tegra-button
+          path: tegra-button
