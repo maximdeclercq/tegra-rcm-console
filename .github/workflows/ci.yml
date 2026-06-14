@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Build pico firmware
+        run: pio run -e pico
+      - name: Upload UF2
+        uses: actions/upload-artifact@v4
+        with:
+          name: tegra-rcm-console.uf2
+          path: .pio/build/pico/firmware.uf2
+
+  nano:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Build nano33ble firmware
+        run: pio run -e nano33ble
+
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyserial pytest ruff
+      - name: Install package
+        run: pip install .
+        working-directory: tools
+      - name: Lint
+        run: ruff check
+        working-directory: tools
+      - name: Test
+        run: pytest
+        working-directory: tools
+
+  shiv:
+    runs-on: ubuntu-latest
+    needs: host
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install shiv
+        run: pip install shiv
+      - name: Build shiv
+        run: |
+          pip install --target .site-pkgs ./tools
+          shiv --site-packages .site-pkgs --compressed -c tegra-rcm-console -o tegra-rcm-console
+      - name: Upload shiv
+        uses: actions/upload-artifact@v4
+        with:
+          name: tegra-rcm-console
+          path: tegra-rcm-console
