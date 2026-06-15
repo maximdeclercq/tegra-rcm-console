@@ -19,7 +19,7 @@ FLASH_MARKER = "initrd-flash"
 RCM_VID = "0955"
 # Orin Nano/NX (+AGX Orin) RCM product IDs, per the OE4T udev rules.
 RCM_PIDS = ("7523", "7623", "7323", "7423", "7023")
-FLASH_TIMEOUT_S = 1800.0
+FLASH_TIMEOUT_S = 5400.0
 RCM_WAIT_S = 30.0
 
 

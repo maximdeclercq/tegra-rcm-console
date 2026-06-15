@@ -105,12 +105,14 @@ class Board:
                         self._send(port, f"{line}=0")
 
     def recov(self) -> None:
-        # State-agnostic RCM entry: hold recovery across a reset pulse (enters RCM
-        # if powered) and a power-on pulse (boots into RCM if it was off).
+        # Cold RCM entry: force the board fully off first (a long power hold ends OFF
+        # from any state), then power on with recovery asserted. A warm reset alone
+        # leaves NVMe/PCIe initialised, which makes a re-flash hang at
+        # `export-devices nvme0n1` (LUN: no medium); a cold start clears it.
         self._run([
+            ("power=1", POWER_OFF_S),
+            ("power=0", POWER_GAP_S),
             ("recov=1", RECOV_SETTLE_S),
-            ("reset=1", RESET_PULSE_S),
-            ("reset=0", RECOV_SETTLE_S),
             ("power=1", POWER_ON_S),
             ("power=0", RECOV_RELEASE_S),
             ("recov=0", 0.0),
